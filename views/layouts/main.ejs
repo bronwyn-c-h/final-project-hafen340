@@ -14,8 +14,13 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About Us</a></li>
                     <li><a href="/contact">Contact Us</a></li>
+                 <% if (user) { %>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                <% } else { %>
                     <li><a href="/auth/login">Login</a></li>
                     <li><a href="/auth/register">Register</a></li>
+                <% } %>
                 </ul>
                 <a href="/" class="logo-link">
                     <img src="/images/logoseabright.png" alt="Seabright Sand Logo" class="logo">

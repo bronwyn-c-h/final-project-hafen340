@@ -1,3 +1,6 @@
+<% if (error) { %>
+  <p style="color: red;"><%= error %></p>
+<% } %>
 <div class="form-container">
     <h2>Login</h2>
     <form action="/auth/login" method="post">

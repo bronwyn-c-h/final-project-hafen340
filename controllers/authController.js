@@ -40,10 +40,33 @@ export const postRegister = async (req, res) => {
   res.redirect('/');
 };
 
-export const postLogin = (req, res) => {
-  res.send('login post works');
+export const postLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  // Find user by email
+  const user = await userModel.getUserByEmail(email);
+  if (!user) {
+    return res.render('auth/login', { error: 'Invalid email or password' });
+  }
+
+  // Check password
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    return res.render('auth/login', { error: 'Invalid email or password' });
+  }
+
+  // Set session
+  req.session.user = {
+    id: user.id,
+    first_name: user.first_name,
+    email: user.email,
+    role: user.role
+  };
+
+  res.redirect('/');
 };
 
 export const logout = (req, res) => {
-  res.send('logout works');
+  req.session.destroy();
+  res.redirect('/');
 };
