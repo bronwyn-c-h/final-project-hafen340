@@ -37,7 +37,7 @@ export const postRegister = async (req, res) => {
     role: user.role
   };
 
-  res.redirect('/');
+  res.redirect('/dashboard');
 };
 
 export const postLogin = async (req, res) => {
@@ -63,7 +63,7 @@ export const postLogin = async (req, res) => {
     role: user.role
   };
 
-  res.redirect('/');
+  res.redirect('/dashboard');
 };
 
 export const logout = (req, res) => {

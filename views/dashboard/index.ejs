@@ -1,2 +1,27 @@
-<h1>Welcome, <%= user.first_name %>!</h1>
-<p>You are logged in as: <%= user.role %></p>
+<% if (user.role === 'admin') { %>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, <%= user.first_name %>!</p>
+    <ul>
+        <li><a href="/admin/users">Manage Users</a></li>
+        <li><a href="/admin/semesters">Manage Semesters</a></li>
+        <li><a href="/admin/sessions">Manage Sessions</a></li>
+        <li><a href="/admin/students">View All Students</a></li>
+    </ul>
+
+<% } else if (user.role === 'support_tutor') { %>
+    <h1>Tutor Dashboard</h1>
+    <p>Welcome, <%= user.first_name %>!</p>
+    <ul>
+        <li><a href="/tutor/sessions">My Sessions</a></li>
+        <li><a href="/tutor/students">My Students</a></li>
+    </ul>
+
+<% } else { %>
+    <h1>Parent Dashboard</h1>
+    <p>Welcome, <%= user.first_name %>!</p>
+    <ul>
+        <li><a href="/parent/students">My Children</a></li>
+        <li><a href="/parent/bookings">Book a Session</a></li>
+        <li><a href="/parent/bookings/history">Booking History</a></li>
+    </ul>
+<% } %>
