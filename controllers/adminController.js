@@ -1,5 +1,8 @@
+console.log('adminController loaded');
+
 import * as semesterModel from '../models/semesterModel.js';
 import * as sessionSlotModel from '../models/sessionSlotModel.js';
+import * as userModel from '../models/userModel.js';
 
 export const getSemesters = async (req, res) => {
     const semesters = await semesterModel.getAllSemesters();
@@ -32,3 +35,25 @@ export const postAddSlot = async (req, res) => {
     await sessionSlotModel.createSlot(req.params.id, slot_time, day_of_week, max_students);
     res.redirect(`/admin/semesters/${req.params.id}/slots`);
 };
+
+export const getUsers = async (req, res) => {
+    const users = await userModel.getAllUsers();
+    res.render('admin/users', { users });
+};
+
+export const getEditUser = async (req, res) => {
+    const user = await userModel.getUserById(req.params.id);
+    res.render('admin/editUser', { editUser: user, error: null });
+};
+
+export const postEditUser = async (req, res) => {
+    const { role } = req.body;
+    await userModel.updateUserRole(req.params.id, role);
+    res.redirect('/admin/users');
+};
+
+export const deleteUser = async (req, res) => {
+    await userModel.deleteUser(req.params.id);
+    res.redirect('/admin/users');
+};
+

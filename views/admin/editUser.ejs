@@ -1,0 +1,22 @@
+<h1>Edit User Role</h1>
+<h2><%= editUser.first_name %> <%= editUser.last_name %></h2>
+<p>Email: <%= editUser.email %></p>
+
+<% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+<% } %>
+
+<form action="/admin/users/<%= editUser.id %>/edit" method="post">
+    <p>
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="parent" <%= editUser.role === 'parent' ? 'selected' : '' %>>Parent</option>
+            <option value="support_tutor" <%= editUser.role === 'support_tutor' ? 'selected' : '' %>>Support Tutor</option>
+            <option value="admin" <%= editUser.role === 'admin' ? 'selected' : '' %>>Admin</option>
+        </select>
+    </p>
+    <p class="button">
+        <button type="submit">Update Role</button>
+    </p>
+    <a href="/admin/users">Cancel</a>
+</form>
