@@ -1,0 +1,16 @@
+<h1>Manage Semesters</h1>
+<a href="/admin/semesters/add">Add Semester</a>
+
+<% if (semesters.length === 0) { %>
+    <p>No semesters yet.</p>
+<% } else { %>
+    <% semesters.forEach(semester => { %>
+        <div>
+            <h2><%= semester.name %></h2>
+            <p>Start: <%= semester.start_date.toLocaleDateString() %></p>
+            <p>End: <%= semester.end_date.toLocaleDateString() %></p>
+            <p>Status: <%= semester.is_active ? 'Active' : 'Inactive' %></p>
+            <a href="/admin/semesters/<%= semester.id %>/slots">Manage Schedule</a>
+        </div>
+    <% }) %>
+<% } %>

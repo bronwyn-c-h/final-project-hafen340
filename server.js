@@ -5,6 +5,7 @@ import authRoutes from './routes/authroutes.js';
 import expressLayouts from 'express-ejs-layouts';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import parentRoutes from './routes/parentRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use((req, res, next) => {
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/parent', parentRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
     res.render('index');
