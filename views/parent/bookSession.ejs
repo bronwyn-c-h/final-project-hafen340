@@ -1,0 +1,46 @@
+<h1>Book a Session</h1>
+
+<% if (students.length === 0) { %>
+    <p>You need to <a href="/parent/students/add">add a child</a> before booking a session.</p>
+<% } else if (sessions.length === 0) { %>
+    <p>No available sessions at this time. Please check back later.</p>
+<% } else { %>
+    <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+    <form action="/parent/bookings" method="post">
+        <p>
+            <label for="student_id">Select Child:</label>
+            <select id="student_id" name="student_id" required>
+                <% students.forEach(student => { %>
+                    <option value="<%= student.id %>">
+                        <%= student.first_name %> <%= student.last_name %>
+                    </option>
+                <% }) %>
+            </select>
+        </p>
+        <p>
+            <label for="session_id">Select Session:</label>
+            <select id="session_id" name="session_id" required>
+                <% sessions.forEach(session => { %>
+                    <option value="<%= session.id %>">
+                        <%= new Date(session.session_date).toLocaleDateString() %> - 
+                        <%= session.day_of_week %> 
+                        <%
+                            const [hours, minutes] = session.slot_time.split(':');
+                            const hour = parseInt(hours);
+                            const ampm = hour >= 12 ? 'PM' : 'AM';
+                            const displayHour = hour > 12 ? hour - 12 : hour;
+                        %>
+                        <%= displayHour + ':' + minutes + ' ' + ampm %>
+                        (<%= session.semester_name %>) - 
+                        <%= session.max_students - session.enrolled_count %> spots left
+                    </option>
+                <% }) %>
+            </select>
+        </p>
+        <p class="button">
+            <button type="submit">Book Session</button>
+        </p>
+    </form>
+<% } %>

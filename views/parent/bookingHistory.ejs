@@ -1,0 +1,36 @@
+<h1>Booking History</h1>
+<a href="/parent/bookings">Book Another Session</a>
+
+<% if (enrollments.length === 0) { %>
+    <p>No bookings yet.</p>
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Semester</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% enrollments.forEach(enrollment => { %>
+                <tr>
+                    <td><%= enrollment.student_first_name %> <%= enrollment.student_last_name %></td>
+                    <td><%= new Date(enrollment.session_date).toLocaleDateString() %></td>
+                    <td><%= enrollment.day_of_week %></td>
+                    <td><%
+                        const [hours, minutes] = enrollment.slot_time.split(':');
+                        const hour = parseInt(hours);
+                        const ampm = hour >= 12 ? 'PM' : 'AM';
+                        const displayHour = hour > 12 ? hour - 12 : hour;
+                    %><%= displayHour + ':' + minutes + ' ' + ampm %></td>
+                    <td><%= enrollment.semester_name %></td>
+                    <td><%= enrollment.session_status %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } %>
