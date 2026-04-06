@@ -44,3 +44,11 @@ export const updateUserRole = async (id, role) => {
 export const deleteUser = async (id) => {
     await pool.query('DELETE FROM users WHERE id = $1', [id]);
 };
+
+export const getTutors = async () => {
+    const result = await pool.query(
+        `SELECT id, first_name, last_name, role FROM users 
+         WHERE role = 'support_tutor' OR role = 'admin'`
+    );
+    return result.rows;
+};

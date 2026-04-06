@@ -1,0 +1,57 @@
+<h1>Manage Sessions</h1>
+<a href="/admin/sessions/add">Add Individual Session</a>
+
+<h2>Generate Sessions by Semester</h2>
+<% semesters.forEach(semester => { %>
+    <div>
+        <span><%= semester.name %></span>
+        <form action="/admin/semesters/<%= semester.id %>/generate-sessions" method="post" style="display:inline">
+            <button type="submit" onclick="return confirm('Generate all sessions for <%= semester.name %>?')">
+                Generate Sessions
+            </button>
+        </form>
+    </div>
+<% }) %>
+
+<h2>All Sessions</h2>
+<% if (sessions.length === 0) { %>
+    <p>No sessions yet. Generate sessions for a semester above.</p>
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Semester</th>
+                <th>Tutor</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% sessions.forEach(session => { %>
+                <tr>
+                    <td><%= new Date(session.session_date).toLocaleDateString() %></td>
+                    <td><%= session.day_of_week %></td>
+                    <td><%
+                        const [hours, minutes] = session.slot_time.split(':');
+                        const hour = parseInt(hours);
+                        const ampm = hour >= 12 ? 'PM' : 'AM';
+                        const displayHour = hour > 12 ? hour - 12 : hour;
+                        %><%= displayHour + ':' + minutes + ' ' + ampm %></td>
+                    <td><%= session.semester_name %></td>
+                    <td>
+                        <% if (session.tutor_first_name) { %>
+                            <%= session.tutor_first_name %> <%= session.tutor_last_name %>
+                        <% } else { %>
+                            <span style="color: red;">Unassigned</span>
+                        <% } %>
+                    </td>
+                    <td><%= session.status %></td>
+                    <td><a href="/admin/sessions/<%= session.id %>/edit">Edit</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } %>

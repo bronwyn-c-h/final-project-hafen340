@@ -1,0 +1,36 @@
+<h1>Add Individual Session</h1>
+<% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+<% } %>
+
+<form action="/admin/sessions/add" method="post">
+    <p>
+        <label for="slot_id">Time Slot:</label>
+        <select id="slot_id" name="slot_id" required>
+            <% slots.forEach(slot => { %>
+                <option value="<%= slot.id %>">
+                    <%= slot.semester_name %> - <%= slot.day_of_week %> at <%= slot.slot_time %>
+                </option>
+            <% }) %>
+        </select>
+    </p>
+    <p>
+        <label for="session_date">Date:</label>
+        <input type="date" id="session_date" name="session_date" required/>
+    </p>
+    <p>
+        <label for="support_tutor_id">Support Tutor:</label>
+        <select id="support_tutor_id" name="support_tutor_id">
+            <option value="">Unassigned</option>
+            <% tutors.forEach(tutor => { %>
+                <option value="<%= tutor.id %>">
+                    <%= tutor.first_name %> <%= tutor.last_name %>
+                </option>
+            <% }) %>
+        </select>
+    </p>
+    <p class="button">
+        <button type="submit">Add Session</button>
+    </p>
+    <a href="/admin/sessions">Cancel</a>
+</form>

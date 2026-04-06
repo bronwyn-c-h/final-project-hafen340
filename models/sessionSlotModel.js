@@ -16,3 +16,14 @@ export const createSlot = async (semester_id, slot_time, day_of_week, max_studen
     );
     return result.rows[0];
 };
+
+export const getAllSlots = async () => {
+    const result = await pool.query(
+        `SELECT session_slots.*, semesters.name as semester_name 
+         FROM session_slots
+         JOIN semesters ON session_slots.semester_id = semesters.id
+         WHERE session_slots.is_active = true
+         ORDER BY semesters.name, day_of_week, slot_time`
+    );
+    return result.rows;
+};

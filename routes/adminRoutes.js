@@ -14,5 +14,11 @@ router.get('/users', requireAdmin, adminController.getUsers);
 router.get('/users/:id/edit', requireAdmin, adminController.getEditUser);
 router.post('/users/:id/edit', requireAdmin, adminController.postEditUser);
 router.post('/users/:id/delete', requireAdmin, adminController.deleteUser);
+router.get('/sessions', requireAdmin, adminController.getSessions);
+router.post('/semesters/:id/generate-sessions', requireAdmin, adminController.generateSessions);
+router.get('/sessions/:id/edit', requireAdmin, adminController.getEditSession);
+router.post('/sessions/:id/edit', requireAdmin, adminController.postEditSession);
+router.get('/sessions/add', requireAdmin, adminController.getAddSession);
+router.post('/sessions/add', requireAdmin, adminController.postAddSession);
 
 export default router;
