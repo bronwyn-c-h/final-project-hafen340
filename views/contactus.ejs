@@ -1,7 +1,10 @@
- <main>
+<main>
     <h2>Contact Us Here!</h2>
-    <% if (typeof success !== 'undefined') { %>
+    <% if (typeof success !== 'undefined' && success) { %>
         <p style="color: green;"><%= success %></p>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p style="color: red;"><%= error %></p>
     <% } %>
     <form action="/contact" method="post">
         <p>
