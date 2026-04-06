@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import authRoutes from './routes/authroutes.js';
 import expressLayouts from 'express-ejs-layouts';
+import dashboardRoutes from './routes/dashboardRoutes.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {
     res.render('index');
