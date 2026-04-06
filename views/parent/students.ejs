@@ -1,0 +1,14 @@
+<h1>My Children</h1>
+<a href="/parent/students/add">Add a Child</a>
+
+<% if (students.length === 0) { %>
+    <p>You haven't added any children yet.</p>
+<% } else { %>
+    <% students.forEach(student => { %>
+        <div>
+            <h2><%= student.first_name %> <%= student.last_name %></h2>
+            <p>Date of Birth: <%= student.date_of_birth ? student.date_of_birth.toLocaleDateString() : 'Not provided' %></p>
+            <p>Notes: <%= student.notes || 'None' %></p>
+        </div>
+    <% }) %>
+<% } %>
