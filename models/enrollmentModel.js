@@ -37,3 +37,12 @@ export const checkAlreadyEnrolled = async (session_id, student_id) => {
     );
     return result.rows[0];
 };
+
+export const addProgressNote = async (enrollment_id, note) => {
+    const result = await pool.query(
+        `INSERT INTO progress_notes (enrollment_id, note)
+         VALUES ($1, $2) RETURNING *`,
+        [enrollment_id, note]
+    );
+    return result.rows[0];
+};

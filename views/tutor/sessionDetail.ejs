@@ -1,0 +1,36 @@
+<h1>Session Details</h1>
+<% if (session.session_date) { %>
+    <p>Date: <%= new Date(session.session_date).toLocaleDateString() %></p>
+    <p>Day: <%= session.day_of_week %></p>
+    <p>Status: <%= session.session_status %></p>
+<% } %>
+
+<a href="/tutor/sessions">Back to Sessions</a>
+
+<% if (students.length === 0) { %>
+    <p>No students enrolled in this session.</p>
+<% } else { %>
+    <% students.forEach(student => { %>
+        <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+            <h2><%= student.first_name %> <%= student.last_name %></h2>
+            <p>Status: <%= student.enrollment_status %></p>
+            
+            <% if (student.note) { %>
+                <div>
+                    <h3>Progress Note:</h3>
+                    <p><%= student.note %></p>
+                    <small>Added: <%= new Date(student.note_date).toLocaleDateString() %></small>
+                </div>
+            <% } %>
+
+            <h3>Add Progress Note:</h3>
+            <form action="/tutor/sessions/<%= sessionId %>/notes" method="post">
+                <input type="hidden" name="enrollment_id" value="<%= student.enrollment_id %>"/>
+                <p>
+                    <textarea name="note" rows="3" placeholder="Enter progress note..." required></textarea>
+                </p>
+                <button type="submit">Save Note</button>
+            </form>
+        </div>
+    <% }) %>
+<% } %>
