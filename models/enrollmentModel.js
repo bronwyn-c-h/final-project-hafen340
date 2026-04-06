@@ -46,3 +46,17 @@ export const addProgressNote = async (enrollment_id, note) => {
     );
     return result.rows[0];
 };
+
+export const cancelEnrollment = async (id, parent_id) => {
+    // Make sure the enrollment belongs to this parent's student
+    const result = await pool.query(
+        `DELETE FROM session_enrollments
+         USING students
+         WHERE session_enrollments.id = $1
+         AND session_enrollments.student_id = students.id
+         AND students.parent_id = $2
+         RETURNING session_enrollments.id`,
+        [id, parent_id]
+    );
+    return result.rows[0];
+};

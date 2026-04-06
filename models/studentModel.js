@@ -16,3 +16,14 @@ export const createStudent = async (parent_id, first_name, last_name, date_of_bi
     );
     return result.rows[0];
 };
+
+export const getAllStudents = async () => {
+    const result = await pool.query(
+        `SELECT students.*, users.first_name as parent_first_name, 
+        users.last_name as parent_last_name, users.email as parent_email
+        FROM students
+        JOIN users ON students.parent_id = users.id
+        ORDER BY students.last_name, students.first_name`
+    );
+    return result.rows;
+};

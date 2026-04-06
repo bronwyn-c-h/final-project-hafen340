@@ -4,6 +4,7 @@ import * as userModel from '../models/userModel.js';
 import * as sessionModel from '../models/sessionModel.js';
 import * as contactModel from '../models/contactModel.js';
 import asyncHandler from '../middleware/asyncHandler.js';
+import * as studentModel from '../models/studentModel.js';
 
 export const getSemesters = asyncHandler(async (req, res) => {
     const semesters = await semesterModel.getAllSemesters();
@@ -124,4 +125,9 @@ export const deleteUser = asyncHandler(async (req, res) => {
 export const getMessages = asyncHandler(async (req, res) => {
     const messages = await contactModel.getAllMessages();
     res.render('admin/messages', { messages });
+});
+
+export const getStudents = asyncHandler(async (req, res) => {
+    const students = await studentModel.getAllStudents();
+    res.render('admin/students', { students });
 });

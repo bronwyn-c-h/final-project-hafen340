@@ -45,3 +45,8 @@ export const getBookingHistory = asyncHandler(async (req, res) => {
     const enrollments = await enrollmentModel.getEnrollmentsByParent(req.session.user.id);
     res.render('parent/bookingHistory', { enrollments });
 });
+
+export const cancelBooking = asyncHandler(async (req, res) => {
+    await enrollmentModel.cancelEnrollment(req.params.id, req.session.user.id);
+    res.redirect('/parent/bookings/history');
+});
