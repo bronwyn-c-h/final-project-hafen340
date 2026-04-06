@@ -9,11 +9,14 @@ import adminRoutes from './routes/adminRoutes.js';
 import tutorRoutes from './routes/tutorRoutes.js';
 import * as contactModel from './models/contactModel.js';
 import { validateContact } from './middleware/validation.js';
+import pgSession from 'connect-pg-simple';
+import pool from './database/db.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const PgStore = pgSession(session);
 
 // View engine setup (must be before routes)
 app.set('view engine', 'ejs');
@@ -23,6 +26,10 @@ app.set('layout', 'layouts/main');
 
 // Middleware
 app.use(session({
+  store: new PgStore({
+    pool: pool,
+    createTableIfMissing: true
+  }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
