@@ -58,3 +58,12 @@ CREATE TABLE progress_notes (
   note TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE contact_messages (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  status VARCHAR(50) DEFAULT 'unread',
+  created_at TIMESTAMP DEFAULT NOW()
+);

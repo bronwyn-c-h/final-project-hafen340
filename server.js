@@ -7,6 +7,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import parentRoutes from './routes/parentRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import tutorRoutes from './routes/tutorRoutes.js';
+import * as contactModel from './models/contactModel.js';
 
 dotenv.config();
 
@@ -63,3 +64,8 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+app.post('/contact', async (req, res) => {
+    const { user_name, user_email, user_message } = req.body;
+    await contactModel.createMessage(user_name, user_email, user_message);
+    res.render('contactus', { success: 'Your message has been sent!' });
+});

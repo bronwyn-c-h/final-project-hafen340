@@ -1,0 +1,15 @@
+<h1>Contact Messages</h1>
+
+<% if (messages.length === 0) { %>
+    <p>No messages yet.</p>
+<% } else { %>
+    <% messages.forEach(message => { %>
+        <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+            <h2><%= message.name %></h2>
+            <p>Email: <%= message.email %></p>
+            <p>Message: <%= message.message %></p>
+            <p>Received: <%= message.created_at.toLocaleDateString() %></p>
+            <p>Status: <%= message.status %></p>
+        </div>
+    <% }) %>
+<% } %>

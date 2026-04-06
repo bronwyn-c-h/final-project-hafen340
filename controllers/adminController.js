@@ -4,6 +4,7 @@ import * as semesterModel from '../models/semesterModel.js';
 import * as sessionSlotModel from '../models/sessionSlotModel.js';
 import * as userModel from '../models/userModel.js';
 import * as sessionModel from '../models/sessionModel.js';
+import * as contactModel from '../models/contactModel.js';
 
 export const getSemesters = async (req, res) => {
     const semesters = await semesterModel.getAllSemesters();
@@ -120,4 +121,9 @@ export const postAddSession = async (req, res) => {
     const { slot_id, session_date, support_tutor_id } = req.body;
     await sessionModel.createSession(slot_id, session_date, support_tutor_id || null);
     res.redirect('/admin/sessions');
+};
+
+export const getMessages = async (req, res) => {
+    const messages = await contactModel.getAllMessages();
+    res.render('admin/messages', { messages });
 };

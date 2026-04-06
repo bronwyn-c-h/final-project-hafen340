@@ -20,5 +20,6 @@ router.get('/sessions/:id/edit', requireAdmin, adminController.getEditSession);
 router.post('/sessions/:id/edit', requireAdmin, adminController.postEditSession);
 router.get('/sessions/add', requireAdmin, adminController.getAddSession);
 router.post('/sessions/add', requireAdmin, adminController.postAddSession);
+router.get('/messages', requireAdmin, adminController.getMessages);
 
 export default router;

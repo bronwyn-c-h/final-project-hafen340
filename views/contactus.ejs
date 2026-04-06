@@ -1,5 +1,8 @@
-<main>
+ <main>
     <h2>Contact Us Here!</h2>
+    <% if (typeof success !== 'undefined') { %>
+        <p style="color: green;"><%= success %></p>
+    <% } %>
     <form action="/contact" method="post">
         <p>
             <label for="name">Name:</label>
@@ -7,7 +10,7 @@
         </p>
         <p>
             <label for="mail">Email:</label>
-            <input type="email" id="mail" name="user_email" />
+            <input type="email" id="mail" name="user_email" required/>
         </p>
         <p>
             <label for="msg">Message:</label>
