@@ -60,6 +60,17 @@ app.get('/contact', (req, res) => {
     res.render('contactus');
 });
 
+// 404 handler
+app.use((req, res, next) => {
+    res.status(404).render('errors/404');
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render('errors/500', { error: err.message });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
