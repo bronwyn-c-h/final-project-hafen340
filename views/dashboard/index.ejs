@@ -11,7 +11,7 @@
 
 <% } else if (user.role === 'support_tutor') { %>
     <h1>Tutor Dashboard</h1>
-    <p>Welcome, <%= user.first_name %>!</p>
+    <p class="dashboard-welcome">Welcome, <%= user.first_name %>!</p>
     <ul>
         <li><a href="/tutor/sessions">My Sessions</a></li>
     </ul>
