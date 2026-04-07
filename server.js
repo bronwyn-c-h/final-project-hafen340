@@ -26,23 +26,21 @@ app.set('layout', 'layouts/main');
 
 // Middleware
 app.use(session({
-  store: new PgStore({
-    pool: pool,
-    createTableIfMissing: true
-  }),
   secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 1000 * 60 * 60 * 24
+    secure: true,
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true
   }
 }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+app.set('trust proxy', 1);
 
 // Make user available to all views
 app.use((req, res, next) => {
