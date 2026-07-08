@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import pool from './src/models/db.js';
 
 dotenv.config();
 
@@ -36,6 +37,9 @@ app.get('/', (req, res) => {
 });
 
 // Start the server and listen on the specified port
+pool.query('SELECT NOW()')
+  .then(result => console.log('Database connected:', result.rows[0]))
+  .catch(err => console.error('Database connection error:', err));
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
