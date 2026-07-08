@@ -1,4 +1,6 @@
+node_modules/
 .env
+restore (1).js
 # Logs
 logs
 *.log
