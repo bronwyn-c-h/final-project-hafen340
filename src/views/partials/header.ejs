@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Site</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">📚 Book Site</a>
+    <nav>
+      <a href="/books">Browse Books</a>
+      <% if (locals.user) { %>
+        <a href="/requests">My Requests</a>
+        <% if (locals.user.role === 'moderator' || locals.user.role === 'admin') { %>
+          <a href="/moderator/ratings">Moderator</a>
+        <% } %>
+        <% if (locals.user.role === 'admin') { %>
+          <a href="/admin/books">Admin</a>
+        <% } %>
+        <a href="/logout">Logout (<%= locals.user.username %>)</a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+      <% } %>
+    </nav>
+  </header>
