@@ -1,33 +1,59 @@
-//imports
 import express from 'express';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
 import path from 'path';
-import pool from './src/models/db.js';
-
-dotenv.config();
+import { fileURLToPath } from 'url';
+import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
+import { addLocalVariables } from './src/middleware/global.js';
 
 /**
- * Declare Important Variables
+ * Server Configuration
  */
-
-const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+const PORT = process.env.PORT || 3000;
+
 /**
  * Setup Express Server
  */
 const app = express();
+
+/**
+ * Configure Express
+ */
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
-/**
- * Configure Express middleware
- */
-
-// Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+/**
+ * Session Configuration
+ */
+const pgSession = connectPgSimple(session);
+app.use(session({
+  store: new pgSession({
+    conObject: {
+      connectionString: process.env.DB_URL,
+      ssl: { rejectUnauthorized: false }
+    },
+    tableName: 'session',
+    createTableIfMissing: true
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: NODE_ENV.includes('dev') !== true,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}));
+
+/**
+ * Global Middleware
+ */
+app.use(addLocalVariables);
 
 /**
  * Routes
@@ -36,10 +62,41 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-// Start the server and listen on the specified port
-pool.query('SELECT NOW()')
-  .then(result => console.log('Database connected:', result.rows[0]))
-  .catch(err => console.error('Database connection error:', err));
+/**
+ * Error Handling
+ */
+// 404 handler
+app.use((req, res, next) => {
+  const err = new Error('Page Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  if (res.headersSent || res.finished) {
+    return next(err);
+  }
+  const status = err.status || 500;
+  const template = status === 404 ? '404' : '500';
+  const context = {
+    title: status === 404 ? 'Page Not Found' : 'Server Error',
+    error: NODE_ENV === 'production' ? 'An error occurred' : err.message,
+    stack: NODE_ENV === 'production' ? null : err.stack,
+    NODE_ENV
+  };
+  try {
+    res.status(status).render(`errors/${template}`, context);
+  } catch (renderErr) {
+    if (!res.headersSent) {
+      res.status(status).send(`<h1>Error ${status}</h1><p>An error occurred.</p>`);
+    }
+  }
+});
+
+/**
+ * Start Server
+ */
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
