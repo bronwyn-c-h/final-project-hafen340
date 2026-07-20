@@ -34,12 +34,11 @@ const showAdminDashboard = async (req, res, next) => {
 
 const addBook = async (req, res, next) => {
   try {
-    const { title, author_name, description, published_year } = req.body;
+    const { title, author_name, description, published_year, cover_image_url } = req.body;
     
     let authorId = null;
     
     if (author_name && author_name.trim().length > 0) {
-      // Check if author already exists
       const existingAuthor = await pool.query(
         `SELECT id FROM authors WHERE LOWER(name) = LOWER($1)`,
         [author_name.trim()]
@@ -48,7 +47,6 @@ const addBook = async (req, res, next) => {
       if (existingAuthor.rows.length > 0) {
         authorId = existingAuthor.rows[0].id;
       } else {
-        // Create new author
         const newAuthor = await pool.query(
           `INSERT INTO authors (name) VALUES ($1) RETURNING id`,
           [author_name.trim()]
@@ -58,9 +56,9 @@ const addBook = async (req, res, next) => {
     }
 
     await pool.query(
-      `INSERT INTO books (title, author_id, description, published_year)
-       VALUES ($1, $2, $3, $4)`,
-      [title, authorId, description, published_year || null]
+      `INSERT INTO books (title, author_id, description, published_year, cover_image_url)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [title, authorId, description, published_year || null, cover_image_url || null]
     );
     res.redirect('/admin');
   } catch (err) {

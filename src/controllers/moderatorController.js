@@ -44,7 +44,7 @@ const updateRatingStatus = async (req, res, next) => {
   }
 };
 
-const deleteReview = async (req, res, next) => {
+const moderatorDeleteReview = async (req, res, next) => {
   try {
     const { reviewId } = req.params;
 
@@ -59,4 +59,4 @@ const deleteReview = async (req, res, next) => {
   }
 };
 
-export { showModeratorDashboard, updateRatingStatus, deleteReview };
+export { showModeratorDashboard, updateRatingStatus, moderatorDeleteReview };

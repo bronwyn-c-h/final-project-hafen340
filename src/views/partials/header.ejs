@@ -8,16 +8,16 @@
 </head>
 <body>
   <header>
-    <a href="/" class="logo">📚 Book Site</a>
+    <a href="/" class="logo">SpiceShelf</a>
     <nav>
       <a href="/books">Browse Books</a>
       <% if (locals.user) { %>
         <a href="/requests">My Requests</a>
         <% if (locals.user.role === 'moderator' || locals.user.role === 'admin') { %>
-          <a href="/moderator/ratings">Moderator</a>
+          <a href="/moderator">Moderator</a>
         <% } %>
         <% if (locals.user.role === 'admin') { %>
-          <a href="/admin/books">Admin</a>
+          <a href="/admin">Admin</a>
         <% } %>
         <a href="/logout">Logout (<%= locals.user.username %>)</a>
       <% } else { %>

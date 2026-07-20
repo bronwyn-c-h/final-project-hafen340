@@ -5,7 +5,7 @@ import { submitContentRating } from './ratingController.js';
 import { requireLogin, requireRole } from '../middleware/auth.js';
 import { submitReview, editReview, removeReview } from './reviewController.js';
 import { showRequestForm, submitRequest, showMyRequests } from './requestController.js';
-import { showModeratorDashboard, updateRatingStatus, deleteReview } from './moderatorController.js';
+import { showModeratorDashboard, updateRatingStatus, moderatorDeleteReview } from './moderatorController.js';
 import { showAdminDashboard, addBook, deleteBook, updateUserRole, updateRequestStatus } from './adminController.js';
 
 
@@ -29,9 +29,9 @@ router.post('/books/:id/reviews/:reviewId/delete', requireLogin, removeReview);
 router.get('/requests', requireLogin, showMyRequests);
 router.get('/requests/new', requireLogin, showRequestForm);
 router.post('/requests', requireLogin, submitRequest);
-router.get('/moderator', requireLogin, requireRole('moderator'), showModeratorDashboard);
-router.post('/moderator/ratings/:ratingId', requireLogin, requireRole('moderator'), updateRatingStatus);
-router.post('/moderator/reviews/:reviewId/delete', requireLogin, requireRole('moderator'), deleteReview);
+router.get('/moderator', requireLogin, requireRole('moderator', 'admin'), showModeratorDashboard);
+router.post('/moderator/ratings/:ratingId', requireLogin, requireRole('moderator', 'admin'), updateRatingStatus);
+router.post('/moderator/reviews/:reviewId/delete', requireLogin, requireRole('moderator', 'admin'), moderatorDeleteReview);
 router.get('/admin', requireLogin, requireRole('admin'), showAdminDashboard);
 router.post('/admin/books', requireLogin, requireRole('admin'), addBook);
 router.post('/admin/books/:bookId/delete', requireLogin, requireRole('admin'), deleteBook);
