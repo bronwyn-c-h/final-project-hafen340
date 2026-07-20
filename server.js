@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { addLocalVariables } from './src/middleware/global.js';
+import routes from './src/controllers/routes.js';
 
 /**
  * Server Configuration
@@ -58,9 +59,7 @@ app.use(addLocalVariables);
 /**
  * Routes
  */
-app.get('/', (req, res) => {
-  res.render('index');
-});
+app.use('/', routes);
 
 /**
  * Error Handling
