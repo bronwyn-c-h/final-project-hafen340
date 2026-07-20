@@ -1,0 +1,24 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Request a Book</h1>
+  <p>Can't find a book in our catalog? Request it here.</p>
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+  <form action="/requests" method="POST">
+    <div>
+      <label for="title">Book Title *</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+    <div>
+      <label for="author_name">Author Name</label>
+      <input type="text" id="author_name" name="author_name">
+    </div>
+    <div>
+      <label for="notes">Additional Notes</label>
+      <textarea id="notes" name="notes" rows="3"></textarea>
+    </div>
+    <button type="submit">Submit Request</button>
+  </form>
+</main>
+<%- include('../partials/footer') %>

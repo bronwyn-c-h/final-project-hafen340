@@ -29,6 +29,11 @@
           <div class="review">
             <p><strong><%= review.username %></strong></p>
             <p><%= review.body %></p>
+            <% if (isLoggedIn && user.id === review.user_id) { %>
+              <form action="/books/<%= book.id %>/reviews/<%= review.id %>/delete" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+              </form>
+            <% } %>
           </div>
         <% }) %>
       <% } %>
@@ -53,6 +58,18 @@
       </form>
     </section>
     <% } %>
+    <% if (isLoggedIn) { %>
+    <section>
+      <h2>Write a Review</h2>
+      <form action="/books/<%= book.id %>/reviews" method="POST">
+        <div>
+          <label for="body">Your Review</label>
+          <textarea id="body" name="body" rows="4" required></textarea>
+        </div>
+        <button type="submit">Submit Review</button>
+      </form>
+    </section>
+<% } %>
   </div>
 </main>
 
