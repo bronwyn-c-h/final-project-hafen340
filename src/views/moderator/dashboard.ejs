@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Moderator Dashboard</h1>
+
+  <section>
+    <h2>Pending Content Ratings</h2>
+    <% if (pendingRatings.length === 0) { %>
+      <p>No pending ratings.</p>
+    <% } else { %>
+      <% pendingRatings.forEach(rating => { %>
+        <div>
+          <p><strong><%= rating.book_title %></strong> — rated by <%= rating.username %></p>
+          <p>🌶️ Spice: <%= rating.spice_level %> | ⚔️ Violence: <%= rating.violence_level %> | 🤬 Language: <%= rating.language_level %></p>
+          <form action="/moderator/ratings/<%= rating.id %>" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="approved">
+            <button type="submit">Approve</button>
+          </form>
+          <form action="/moderator/ratings/<%= rating.id %>" method="POST" style="display:inline;">
+            <input type="hidden" name="status" value="rejected">
+            <button type="submit">Reject</button>
+          </form>
+        </div>
+      <% }) %>
+    <% } %>
+  </section>
+
+  <section>
+    <h2>All Reviews</h2>
+    <% if (reviews.length === 0) { %>
+      <p>No reviews yet.</p>
+    <% } else { %>
+      <% reviews.forEach(review => { %>
+        <div>
+          <p><strong><%= review.book_title %></strong> — by <%= review.username %></p>
+          <p><%= review.body %></p>
+          <form action="/moderator/reviews/<%= review.id %>/delete" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+        </div>
+      <% }) %>
+    <% } %>
+  </section>
+</main>
+<%- include('../partials/footer') %>

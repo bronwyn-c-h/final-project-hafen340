@@ -1,0 +1,76 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Admin Dashboard</h1>
+
+  <section>
+    <h2>Add a Book</h2>
+    <form action="/admin/books" method="POST">
+      <div>
+        <label>Title *</label>
+        <input type="text" name="title" required>
+      </div>
+      <div>
+        <label>Author</label>
+        <input type="text" name="author_name" required>
+      </div>
+      <div>
+        <label>Description</label>
+        <textarea name="description" rows="3"></textarea>
+      </div>
+      <div>
+        <label>Published Year</label>
+        <input type="number" name="published_year">
+      </div>
+      <button type="submit">Add Book</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Manage Books</h2>
+    <% books.forEach(book => { %>
+      <div>
+        <strong><%= book.title %></strong> by <%= book.author_name || 'Unknown' %>
+        <form action="/admin/books/<%= book.id %>/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this book?')">Delete</button>
+        </form>
+      </div>
+    <% }) %>
+  </section>
+
+  <section>
+    <h2>Manage Users</h2>
+    <% users.forEach(user => { %>
+      <div>
+        <strong><%= user.username %></strong> (<%= user.email %>) — <%= user.role %>
+        <form action="/admin/users/<%= user.id %>/role" method="POST" style="display:inline;">
+          <select name="role">
+            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+            <option value="moderator" <%= user.role === 'moderator' ? 'selected' : '' %>>Moderator</option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    <% }) %>
+  </section>
+
+  <section>
+    <h2>Book Requests</h2>
+    <% requests.forEach(request => { %>
+      <div>
+        <strong><%= request.title %></strong> by <%= request.author_name || 'Unknown' %> — requested by <%= request.username %>
+        <p>Status: <%= request.status %></p>
+        <form action="/admin/requests/<%= request.id %>/status" method="POST" style="display:inline;">
+          <select name="status">
+            <option value="requested" <%= request.status === 'requested' ? 'selected' : '' %>>Requested</option>
+            <option value="under_review" <%= request.status === 'under_review' ? 'selected' : '' %>>Under Review</option>
+            <option value="added" <%= request.status === 'added' ? 'selected' : '' %>>Added</option>
+            <option value="rejected" <%= request.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    <% }) %>
+  </section>
+</main>
+<%- include('../partials/footer') %>
