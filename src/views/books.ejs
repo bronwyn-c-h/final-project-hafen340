@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<main>
+  <h1>Browse Books</h1>
+  <div class="book-grid">
+    <% if (books.length === 0) { %>
+      <p>No books found.</p>
+    <% } else { %>
+      <% books.forEach(book => { %>
+        <div class="book-card">
+          <% if (book.cover_image_url) { %>
+            <img src="<%= book.cover_image_url %>" alt="<%= book.title %>">
+          <% } %>
+          <h2><%= book.title %></h2>
+          <p>by <%= book.author_name || 'Unknown' %></p>
+          <a href="/books/<%= book.id %>">View Details</a>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

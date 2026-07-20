@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+<main>
+  <div class="book-detail">
+    <% if (book.cover_image_url) { %>
+      <img src="<%= book.cover_image_url %>" alt="<%= book.title %>">
+    <% } %>
+    <h1><%= book.title %></h1>
+    <p>by <%= book.author_name || 'Unknown' %></p>
+    <p><%= book.description %></p>
+
+    <section class="content-ratings">
+      <h2>Content Ratings</h2>
+      <% if (ratings) { %>
+        <p>🌶️ Spice: <%= ratings.avg_spice || 'Not rated' %>/5</p>
+        <p>⚔️ Violence: <%= ratings.avg_violence || 'Not rated' %>/5</p>
+        <p>🤬 Language: <%= ratings.avg_language || 'Not rated' %>/5</p>
+      <% } else { %>
+        <p>No ratings yet.</p>
+      <% } %>
+    </section>
+
+    <section class="reviews">
+      <h2>Reviews</h2>
+      <% if (reviews.length === 0) { %>
+        <p>No reviews yet.</p>
+      <% } else { %>
+        <% reviews.forEach(review => { %>
+          <div class="review">
+            <p><strong><%= review.username %></strong></p>
+            <p><%= review.body %></p>
+          </div>
+        <% }) %>
+      <% } %>
+    </section>
+    <% if (isLoggedIn) { %>
+    <section>
+      <h2>Submit Your Rating</h2>
+        <form action="/books/<%= book.id %>/rate" method="POST">
+          <div>
+            <label>Spice Level (0-5)</label>
+            <input type="number" name="spice_level" min="0" max="5" required>
+          </div>
+          <div>
+            <label>Violence Level (0-5)</label>
+            <input type="number" name="violence_level" min="0" max="5" required>
+          </div>
+          <div>
+            <label>Language Level (0-5)</label>
+            <input type="number" name="language_level" min="0" max="5" required>
+          </div>
+        <button type="submit">Submit Rating</button>
+      </form>
+    </section>
+    <% } %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
