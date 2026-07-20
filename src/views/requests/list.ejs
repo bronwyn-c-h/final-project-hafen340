@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>My Book Requests</h1>
+  <a href="/requests/new">Request a New Book</a>
+  <% if (requests.length === 0) { %>
+    <p>You haven't made any requests yet.</p>
+  <% } else { %>
+    <% requests.forEach(request => { %>
+      <div class="request-item">
+        <h3><%= request.title %></h3>
+        <% if (request.author_name) { %>
+          <p>by <%= request.author_name %></p>
+        <% } %>
+        <% if (request.notes) { %>
+          <p><%= request.notes %></p>
+        <% } %>
+        <p>Status: <strong><%= request.status %></strong></p>
+        <p>Submitted: <%= new Date(request.created_at).toLocaleDateString() %></p>
+      </div>
+    <% }) %>
+  <% } %>
+</main>
+<%- include('../partials/footer') %>
